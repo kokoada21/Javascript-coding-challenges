@@ -954,7 +954,151 @@ function calcAverageLikes(data){
 } 
 
 
-console.log(calcAverageLikes(postData))
+// console.log(calcAverageLikes(postData))
+
+
+/* Night at the Scrimbies 
+
+It's time for the Scrimbies, a prestigious award show for podcast hosts.
+We need to assemble a list of podcast hosts so we can start handing out awards. 
+
+Write a function that takes in the podcast data and
+returns a flat array of podcast hosts. There are quite a few ways to approach
+this, but try solving the problem using reduce(). 
+
+Once you have a flat array of hosts, write a second function to randomly assign each host a prize
+from the awards array. 
+
+Example output: ["🏆 Alex Booker", "⭐ Bob Smith", "💎 Camilla Lambert" ...] 
+
+*/ 
+const awards = ["🏆", "⭐", "💎", "🥇", "👑"];
+
+function getHosts(data){
+   return data.reduce((acc, curr) => {
+    return [...acc, ...curr.hosts]; //or acc.concat(curr.hosts)
+   },[])
+}
+
+function assignAwards(data){
+    const hosts = getHosts(data);
+    return hosts.map(host => {
+        const randomAwardIndex = Math.floor(Math.random() * awards.length) 
+        return `${awards[randomAwardIndex]} ${host}`;
+    })
+}
+
+// console.log(getHosts(podcasts));
+// console.log(assignAwards(podcasts));
+
+
+
+/* 🌴 Save the Weekend 🌴
+
+Your best friend is a copywriter who writes product descriptions 
+for a living. You want to use your hacking skills to help them 
+automate their job so you both can spend the weekend on a 
+tropical island. 
+
+Use array methods and the existing podcast data to write a function that
+can generate a description for each podcast. 
+
+Add the description as a new property on each podcast object, and return
+a new podcast array where each podcast has a description. 
+
+Each description should look like this: 
+[
+    {
+        id: 1,
+        title: "Scrimba Podcast", 
+        ...
+        description: "Scrimba Podcast is a 50 minute education podcast hosted 
+        by Alex Booker."
+    }
+    ...
+]
+
+If the podcast has more than one host, you can display only the first host.
+
+Stretch goal: Display all three hosts in the description, seperated with commas: 
+
+Example description: "Coding Corner is a 55 minute education podcast hosted by Treasure Porth, Guil Hernandez, and Tom Chant."
+*/ 
+
+function createDescriptionsFor(data){
+   //map through data
+   //for each item add description using data from the current item
+
+   return data.map(item => {
+    const authors = ((item.hosts).length > 1) ? item.hosts.slice(0, -1).join(", ") + " and " + item.hosts.slice(-1) : (item.hosts).toString();
+        return (
+            {
+                ...item,
+                description: `${item.title} is a ${item.duration} minute ${item.genre} podcast hosted by ${authors}`
+            }
+        )
+   })
+}
+
+// console.log(createDescriptionsFor(podcasts))
+
+
+
+/* Find anagrams in an array   
+
+When two words have the exact same letters, they are anagrams. 
+
+Each item in the anagrams array is an anagram of a Scrimba teacher's
+first and last name, plus the phrase "Scrimba teacher". 
+
+Write a function to determine which strings in the array are 
+anagrams of "Bob Ziroll Scrimba Teacher".
+
+Your function should take two parameters: the phrase you want to compare to
+the anagrams, and an array of anagrams. The function should return
+a new array of anagrams that match the phrase. 
+
+Example input: treat, ["tater", "tree", "teart", "tetra", "heart", "hamster"]
+Example output: ["tater", "teart", "tetra"]
+
+Bonus: What other teachers are represented in these anagrams? 
+ */
+
+const anagrams = [
+    "moz biblical torchbearers",  
+    "it's razorbill beachcomber", 
+    "och mcrobbie trailblazers", 
+    "bib chorizo cellarmaster", 
+    "thor scribble carbimazole", 
+    "zilla borscht abercrombie", 
+    "brazil scorcher batmobile", 
+    "dame shelburne characterizing", 
+    "uber englishman characterized", 
+    "agnes rhumbline characterized", 
+    "rehab scrutinized charlemagne", 
+    "dreams zurich interchangeable", 
+    "bam hamster technocratic", 
+    "mechatronic masterbatch", 
+    "bam ratchet mechatronics"
+]
+
+function areAnagrams(a,b){
+    //remove spaces from both string
+    //sort letters alphabetically
+    const cleanA = a.toLowerCase().split("").sort().join("").trim();
+    const cleanB = b.toLowerCase().replace(/\s+/g, '').split("").sort().join("");
+    //compare strings
+    //if same => anagram else =>not anagrams
+    return cleanA === cleanB
+}
+
+function isAnagramInArray(anagram, arr){
+    //filter arr based on condition areAnagrams()
+    return arr.filter(item => areAnagrams(item, anagram))
+}
+
+console.log(isAnagramInArray("Bob Ziroll Scrimba Teacher", anagrams));
+
 
 
 
