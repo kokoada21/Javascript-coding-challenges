@@ -579,8 +579,234 @@ function flatten(arr){
     // return arr.flat()
 }
 
-console.log(flatten(kittyPrizes));
-console.log(flatten(kittyScores));
+// console.log(flatten(kittyPrizes));
+// console.log(flatten(kittyScores));
+
+
+/*
+Alex from Scrimba wants to know how many new students have attended 
+Scrimba's weekly Town Hall event this year. 
+
+He has an array of first-time attendees for each month of the year. 
+Help him find the total number of attendees! Your function should
+take in an array and return a number representing the total number
+of new attendees. 
+
+Example input: [1,2,3]
+Example output: 6
+ */
+
+const studentCount = [50,53,61,67,60,70,78,80,80,81,90,110];
+
+function sumArray(arr){
+    let sum = 0;
+    arr.forEach(number => sum+=number);
+    return sum
+}
+
+// console.log(sumArray(studentCount));
+
+
+/* Pizza Night? 
+It's the weekend and you and your friends can't agree on 
+what to order for dinner, so you put it to a vote. 
+
+Write a function to find the food with the highest number of votes. 
+
+Your function should take in a food object and find the food
+with the most votes. It should log the winner, along with 
+how many votes it received.  
+
+Example input: {"🐈 cats": 19, "🐕 dogs": 17} 
+Example output: The winner is 🐈 cats with 19 votes!
+*/ 
+
+const gameNightFood = {
+    "🍕 pizza": 3, 
+    "🌮 tacos": 10, 
+    "🥗 salads": 7,
+    "🍝 pasta": 5
+}
+
+function findTheWinner(obj){
+    let highestVotes = 0;
+    let winningItem = "";
+    for(let item in obj){
+        if(obj[item] > highestVotes){
+            highestVotes = obj[item];
+            winningItem = item;
+        }
+    }
+    return `The winner is ${winningItem} with ${highestVotes} points`
+}
+
+// console.log(findTheWinner(gameNightFood));
+
+
+
+import userData from "./data/people.js";
+
+/* Totally Private Data Farm 
+
+Good news, renown advertising firm Evil Corp. wants to purchase our 
+private user data! 
+
+We'd never do this in real life of course, but just for practice 
+let's pretend we're unethical web hackers and transform the data 
+in the way Evil Corp. has requested. They're quite particular and
+just want an array of users with a fullname and human readable
+birthday.   
+
+Write a function that maps through the current data and returns
+a new an array of objects with only two properties: 
+fullName and birthday. Each result in your 
+array should look like this when you're done: 
+
+{
+    fullName: "Levent Busser", 
+    birthday: "Fri Aug 20 1971"
+}
+
+Read about toDateString() for info on formatting a readable date. 
+
+*/
+function transformData(data){
+
+    const result = data.map(({name, dob}) => {
+        return {
+            fullName: name.first + " " + name.last,
+            birthday: new Date(dob.date).toDateString()
+        }
+    })
+
+    return result
+
+}
+
+// console.log(transformData(userData));
+
+
+import podcasts from "./data/podcasts.js";
+
+/* Find Free Podcasts 
+
+We have a list of podcasts and need the ability to filter by only
+podcasts which are free.
+
+Write a function that takes in the podcast data and returns an new
+array of only those podcasts which are free.
+
+Additionally, your new array should return only 
+objects containing only the podcast title, rating, and whether or 
+not it is paid. 
+
+Expected output: 
+[
+    {title: "Scrimba Podcast", rating: 10, paid: false}, 
+    {title: "Something about Witches", rating: 8, paid: false}, 
+    {title: "Coding Corner", rating: 9, paid: false}
+]
+*/
+
+function getFreePodcasts(data){
+    return data
+        .filter(item => !item.paid ? true: false) // nebo item.paid === false misto ternary
+        .map(item => {
+            return {
+                title: item.title,
+                rating: item.rating,
+                paid: item.paid
+            }
+        })
+}
+
+// console.log(getFreePodcasts(podcasts))
+
+
+import products from "./data/products.js";
+
+/*
+   It's the day after Halloween 🎃 and all the candy is on sale!
+   
+   To buy up all the candy, use map() and filter() to put all the
+   candy into a `shoppingCart` array. 
+   
+   The new array should contain only the item and the price, like
+   this: 
+   
+   Expected output: 
+   [
+       {item: "🍭", price: 2.99},
+       {item: "🍫", price: 1.99}, 
+       {item: "🍬", price: 0.89}
+    ]
+*/
+
+function getSaleItems(data){
+    return data
+        .filter(item => item.type === "sweet")
+        .map(candy => (
+            {
+                item: candy.item,
+                price: candy.price  
+            }
+        ))
+};
+
+// const shoppingCart = getSaleItems(products);
+// console.log(shoppingCart);
+
+
+//Practising reduce() method
+
+import shoppingCart from "./data/products2.js";
+
+/*  
+Use reduce() to total the groceries. 
+Then find a method that will round the total to 2 decimal places.
+
+Example output: 73.44
+*/
+
+function total(arr){
+    const initalValue = 0;
+    const total = arr.reduce((acc, curr) => {
+        //acc = running total (initillized as zero in this case)
+        //curr = current value,
+        //third argument is
+        return acc + curr.price 
+    }, initalValue)
+
+    return total.toFixed(2)
+}
+
+// console.log(total(shoppingCart));
+
+
+
+/*
+Use reduce() and only reduce() to calculate and return 
+the total cost of only the savory
+items in the shopping cart.
+
+Expected output: 9.97  
+*/
+
+function totalSavory(arr){
+
+    return arr.reduce((acc, curr) => {
+        if(curr.type === "savory"){
+            return acc + curr.price
+        }
+        return acc
+    }, 0);
+
+}
+
+console.log(totalSavory(shoppingCart));
+
+
+
 
 
 
