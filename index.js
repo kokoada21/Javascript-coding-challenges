@@ -803,7 +803,165 @@ function totalSavory(arr){
 
 }
 
-console.log(totalSavory(shoppingCart));
+// console.log(totalSavory(shoppingCart));
+
+
+import products3 from "./data/products3.js";
+
+/*
+    You're online shopping for holiday gifts, but money is tight
+    so we need to look at the cheapest items first. 
+    Use the built in sort() method to write a function that returns a new array of
+    products sorted by price, cheapest to most expensive. 
+    
+    Then log the item and the price to the console: 
+    
+    💕,0
+    🍬,0.89
+    🍫,0.99
+    🧁,0.99
+    📚,0.99
+    ... continued
+*/
+
+function sortProducts(data){
+    return data.sort((a, b) => (a.price - b.price))
+}
+
+// const listByCheapest = sortProducts(products3);
+// console.log(listByCheapest);
+
+
+import mediaData from "./data/mediaData.js";
+
+/* Find All Unique Tags 
+
+As a software dev at ScrimFlix, you're working on a feature 
+to let users browse TV shows by tag. The first step is to collect all 
+the tags from our data into a new array. Then we'll need 
+to filter out the duplicate tags. 
+
+Write a function that takes in the media data and returns
+a flat array of unique tags.
+
+Expected output: 
+["supernatural", "horror", "drama",
+"fantasy", "reality", "home improvement", "comedy", "sci-fi", "adventure"]
+
+*/ 
+
+function getUniqueTags(data){
+    //direct lookup !! important !!
+    const tags = data.map(item => item.tags).flat();
+    let uniqueTags = {};
+    return tags.filter(tag => {
+        if(!uniqueTags[tag]){
+            uniqueTags[tag] = true;
+            return true
+        }else{
+            return false
+        }
+    })
+
+    // const tags = data.map(item => item.tags).flat();
+    // let result = []
+    // for(let i = 0; i < tags.length; i++){
+    //     if(!result.includes(tags[i])){
+    //         result.push(tags[i])
+    //     }
+    // }
+    // return result
+
+    // //My solution
+    // const tags = data.map(item => item.tags).flat();
+    // const set = new Set(tags)
+    // return [...set]
+}
+
+// console.log(getUniqueTags(mediaData));
+
+
+import podcasts2 from "./data/podcasts.js";
+
+/* Welcome Aboard Scrimba Airlines 
+
+Our Scrimba Airlines in-flight entertainment package 
+includes a variety of podcasts. We need to add a feature that suggests
+podcasts to our patrons based on whether a flight is short or long. 
+
+Your sort function should take two arguments: the podcast data and
+flight length. If the flight is 60 minutes or less, sort the podcast list 
+from shortest to longest. If it's anything else, sort from longest
+to shortest. 
+
+Your function shouldn't return anything. Instead log a numbered list 
+of the title and duration of 
+each podcast to the console, like this:
+
+1. Crime Fan, 150 minutes
+2. Mythical Creatures, 99 minutes
+3. Crime Crime Crime, 70 minutes
+4. Coding Corner, 55 minutes
+5. Scrimba Podcast, 50 minutes
+6. Something about Witches, 35 minutes
+
+*/
+
+function sortByDuration(data, flightLength){
+    //sort an array by duration
+    const sortedData = data
+        .sort((a, b) => {
+            //base the order on the flight length
+            if(flightLength <= 60){
+                return a.duration - b.duration
+            }else{
+                return b.duration - a.duration
+            }  
+        })
+            //construct the items for logging
+        .map((item, index) => {
+            return `${index + 1}. ${item.title}, ${item.duration} minutes`
+        })
+    //log the result into the console
+    console.log(sortedData);
+}
+
+// sortByDuration(podcasts2, 60);
+
+
+import postData from "./data/posts.js";
+
+/* Popularity Contest 
+
+Iggy the Influencer and Toby the Tiktoker are dying to know
+who's more popular on social media. 
+
+Toby's TikToks get an average of 400 likes. On average, how many
+likes do Iggy's Instagram posts get? 
+
+In data.js you'll find a list of Iggy's recent posts. 
+Use reduce() to write a function that returns the average number of likes.
+To find the average, add up the total number of likes, then divide
+by the total number of posts.
+*/
+
+function calcAverageLikes(data){
+    const total = data.reduce((acc, curr) => {
+        return acc += curr.likes //nebo acc + curr
+    }, 0)
+
+   return (total/data.length).toFixed(2)
+} 
+
+
+console.log(calcAverageLikes(postData))
+
+
+
+
+
+
+
 
 
 
