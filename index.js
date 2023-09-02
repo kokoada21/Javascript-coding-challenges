@@ -1097,7 +1097,79 @@ function isAnagramInArray(anagram, arr){
     return arr.filter(item => areAnagrams(item, anagram))
 }
 
-console.log(isAnagramInArray("Bob Ziroll Scrimba Teacher", anagrams));
+// console.log(isAnagramInArray("Bob Ziroll Scrimba Teacher", anagrams));
+
+
+/*
+   Oh no, our emoji flower bed is infested with mammals, trees and leaves!
+   Without changing the API url, write a function to transform your 
+   data before it's displayed. The function should eliminate
+   everything but bugs and flowers. Use your function in the API call.  
+   
+   Hint: Be sure to console the data to see what properties can help you do this!
+*/ 
+
+import fetch from "node-fetch";
+
+const url = 'https://apis.scrimba.com/emojihub/api/all/category/animals-and-nature';
+
+
+function clearTheGarden(arr){
+    return arr.filter(animal => animal.group === "plant flower" || animal.group === "animal bug")
+}
+
+// fetch(url) 
+//     .then(response => response.json())
+//     .then(data => clearTheGarden(data))
+//     .then((data) => {
+//         data.forEach(emoji => {
+//             console.log(`<li>${emoji.htmlCode}</li>`);
+//         });    
+//     })
+//     .catch(err => console.log(err));
+
+
+
+/*
+   Let's create an emoji slot machine! Replace the hardcoded 
+   data with random fruit emojis from an emojis API. 
+   
+   - Request emoji food data from the API resource below. Log it and look at it!
+        - Write a function that takes in the data and returns a new array of only
+        fruit emoji objects
+        - Write a function to get 9 random fruits from your new array of fruit 
+        
+   - Load nine random fruits into the slot machine
+*/ 
+// const slotMachine = document.querySelector(".emoji-slots-game");
+
+const foodApi = 'https://apis.scrimba.com/emojihub/api/all/category/food-and-drink';
+
+function makeFruitArray(arr){
+    return arr.filter(item => item.group.includes("fruit"));
+}
+
+function getRandomFruits(arr){
+    const randEmojis = [];
+
+    for(let i = 0; i < 9; i++){
+        let randomIndex = Math.floor(Math.random() * arr.length);
+        randEmojis.push(arr[randomIndex]);
+    }
+
+    return randEmojis
+}
+
+// write your fetch request here 
+
+fetch(foodApi)
+        .then(response => response.json())
+        .then(result => makeFruitArray(result))
+        .then(fruits => getRandomFruits(fruits))
+        .then(fruit => fruit.forEach(fruit => console.log(fruit.htmlCode)))
+        .catch(err => console.log(err))
+
+
 
 
 
